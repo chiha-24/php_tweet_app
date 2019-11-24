@@ -10,8 +10,6 @@ RUN apt-get update -yqq \
 # Enable PHP extensions
 RUN docker-php-ext-install pdo_mysql mysqli
  
-# Install composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
  
 # Add cake and composer command to system path
 ENV PATH="${PATH}:/var/www/html/lib/Cake/Console"
@@ -38,5 +36,6 @@ RUN mkdir -p \
 # Enable Apache modules and restart
 RUN a2enmod rewrite \
   && service apache2 restart
+
  
 EXPOSE 80
