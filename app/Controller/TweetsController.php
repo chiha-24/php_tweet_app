@@ -6,8 +6,10 @@ App::uses('AppController', 'Controller');
 class TweetsController extends AppController {
 
 	public function index() {
-		$words = "テスト";
+		$words = $_ENV['REMOTE_ADDR'];
+
 		$this->set("words",$words);
+
 		/**
 		 * phpifoを表示するときに使う。
 		 * $this->autoRender = false;
