@@ -1,4 +1,5 @@
 <div class="show-container content-wrapper">
+  <!-- ユーザーの取得情報がある場合以下を表示 -->
   <?php if (isset($userDetail)) :?>
     <div class="show-user-contents">
       <div class="show-user-header">
@@ -27,9 +28,10 @@
         <?php endif; ?>
       </div>
       <div class="show-user-footer">
-        <button class="btn show-user-img-btn btn-reverse">このアカウントの画像を取得する！</button>
+        <a href="/tweets/tweetImage?screen_name=<?php echo $userDetail->screen_name?>" class="btn show-user-img-btn btn-reverse">このアカウントの画像を取得する！</a>
       </div>
     </div>
+  <!-- ユーザーの取得情報が無い場合以下を表示 -->
   <?php else :?>
     <p class="result-error-message">ユーザーが取得できませんでした</p>
   <?php endif; ?>

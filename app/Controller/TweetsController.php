@@ -12,14 +12,16 @@ class TweetsController extends AppController {
 	// モデルに干渉しないformを使うので宣言
 	var $useTable = false;
 
-	// componentに定義した処理を使用するので宣言
+	// componentを使用
 	var $components = array('Tweets');
 
+	// indexアクション
 	public function index() {
 		$this->layout = 'tweets';
 
 	}
 
+	// resultアクション(検索結果表示ページ)
 	public function result(){
 		$this->layout = 'tweets';
 
@@ -54,6 +56,7 @@ class TweetsController extends AppController {
 		
 	}
 
+	// showアクション（ユーザー詳細表示）
 	public function show(){
 		$this->layout = 'tweets';
 
@@ -86,5 +89,19 @@ class TweetsController extends AppController {
 			$this->set("userDetail",$userDetail);
 		}
 		// ない場合は何もしない
+	}
+
+	// tweetImageアクション（画像取得・表示アクション）
+	public function tweetImage(){
+		$this->layout = 'tweets';
+
+		// リクエストに含まれるscreen_nameを受け取る。無い場合トップページへリダイレクト
+		if(!isset($_GET["screen_name"])){
+			$this->redirect(array(
+				'controller' => 'tweets',
+				'action' => 'index'
+			));
+			return false;
+		}
 	}
 }
