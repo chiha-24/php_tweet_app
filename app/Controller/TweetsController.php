@@ -11,24 +11,29 @@ class TweetsController extends AppController {
 
 	// モデルに干渉しないformを使うので宣言
 	var $useTable = false;
-	
+
 	// componentに定義した処理を使用するので宣言
 	var $components = array('Tweets');
 
 	public function index() {
+		$this->layout = 'tweets';
+
 	}
 
 	public function result(){
+		$this->layout = 'tweets';
+
 		// 検索キーワード取得
 		$keyWord = $this->request->data("keyWord");
 
 		// マイページURLを入力された場合の処理
 		$regexp = "/https:\/\/twitter.com\//";
+		// 正規表現でキーワード置き換え
 		if(preg_match($regexp,$keyWord)){
 			$keyWord = preg_replace($regexp,"",$keyWord);
 		}
 
-		// ユーザー検索
+		// キーワードでユーザー検索
 		$twitter = $this->Tweets->twitterOAuthInitialize();
 		$result  = $twitter->get('users/search', ["q" => $keyWord]);	
 
@@ -44,13 +49,22 @@ class TweetsController extends AppController {
 		}
 		// 検索結果がなかった場合
 		else{
-			print_r($result);
 			return false;
 		}
 		
 	}
 
 	public function show(){
+		$this->layout = 'tweets';
+
+		// resultアクションからscreen_nameを受け取る。無い場合トップページへリダイレクト
+		if(!isset($_GET["screen_name"])){
+			$this->redirect(array(
+				'controller' => 'tweets',
+				'action' => 'index'
+			));
+			return false;
+		}
 
 		// リクエスト末尾のscreen_nameからtwitterIDを取得
 		$userName = $_GET["screen_name"];
@@ -60,7 +74,17 @@ class TweetsController extends AppController {
 		$userDetail = $twitter->get('users/show', ["screen_name" => $userName]);
 
 		// ビュー側に送信
-		$this->set("userDetail",$userDetail);
-		print_r($userDetail);
+		// 取得エラーの場合トップへリダイレクト
+		if (isset($userDetail->errors)){
+			$this->redirect(array(
+				'controller' => 'tweets',
+				'action' => 'index'
+			));
+		}
+		// データがある場合はビューに送る 
+		elseif (isset($userDetail)) {
+			$this->set("userDetail",$userDetail);
+		}
+		// ない場合は何もしない
 	}
 }

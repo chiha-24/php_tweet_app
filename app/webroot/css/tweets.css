@@ -1,0 +1,257 @@
+body{
+  position: relative;
+  z-index: 1;
+}
+
+/* ヘッダーの設定 */
+header{
+  background-color: rgba(29,161,242,1.00);
+  height: 80px;
+}
+
+.header-container{
+  text-align: center;
+  line-height: 80px;
+}
+
+.header-title{
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 40px;
+}
+
+/* メインコンテンツのコンテナ設定 */
+.main-container{
+  padding: 20px 0;
+  width: 100vw;
+  background-color: #d1e1e462;
+  /* ヘッダー・フッターの分だけ高さを減らす */
+  height: calc(100vh - 120px);
+}
+
+/* フッターの設定 */ 
+footer{
+  /* bodyタグを参照にページ下固定 */
+  position: absolute;
+  z-index: 2;
+  bottom: 0;
+  height: 20px;
+  background-color: rgba(57, 172, 244, 0.756);
+  width: 100vw;
+}
+
+/* フッターの文字プロパティ */
+.footer-title{
+  line-height: 20px;
+  font-size: 12px;
+  color: #eeeeee;
+  margin: 0;
+  text-align: center;
+}
+
+/* 共通クラス用 */
+
+/* 共通wrapper設定 */
+.content-wrapper{
+  height: 60vh;
+  border-radius: 30px;
+  margin: 0 50px;
+  background-color: #ffffff;
+  overflow: scroll;
+  border: solid 0.5px #dddddd87; 
+}
+
+.app-discription{
+  margin: 0 50px 20px 50px;
+  color: #666666;
+  margin-top: unset;
+}
+
+/* 共通ボタン*/
+.btn{
+  border-radius: 20px;
+  background-color: rgba(29,161,242,1.00);
+  color: #ffffff;
+  border: none;
+  padding: 10px 30px;
+  transition: all .3s;
+  margin: 10px 0;
+}
+
+.btn:hover{
+  background-color: #ffffff;
+  color: rgba(29,161,242,1.00);
+  border: solid 1.5px rgba(29,161,242,1.00);
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+/* ボタン色反転 */
+.btn-reverse{
+  background-color: #ffffff;
+  color: rgba(29,161,242,1.00);
+  border: solid 1.5px rgba(29,161,242,1.00);
+}
+
+.btn-reverse:hover{
+  background-color: rgba(29,161,242,1.00);
+  color: #ffffff;
+  border: none;
+  opacity: 0.7;
+}
+.back-btn{
+  margin-left: 50px;
+}
+
+/* ここから各ビューファイル */
+/* index アクション */
+.index-form{
+  margin: 0 auto;
+  padding: 30px;
+  text-align: center; 
+  height: 80%;
+}
+
+.index-keyword-input{
+  display: block;
+  margin: 0 auto;
+  margin-top: 20px;
+  line-height: 40px;
+  padding: 10px 15px;
+  font-size: 25px;
+  width: 80%;
+  border-radius: 10px;
+}
+
+.index-submit-btn{
+  display: inline-block;
+  margin-top: 30px; 
+  padding: 15px 40px;
+  font-size: 25px;
+  font-weight: bold;
+  border-radius: 30px;
+}
+
+/* 
+ * resultアクション
+ * twitterの情報関連はresult-user-〇〇 
+ */
+.result-contents{
+  padding: 0 25px;
+}
+
+.result-contents-header{
+  text-align: center;
+}
+
+.result-users-container{
+  border-top: solid 0.5px #89898987;
+}
+
+.result-error-message{
+  color: rgb(255, 101, 101);
+}
+
+.result-user-wrapper{
+  padding: 10px 30px;
+  transition: all 300ms 0s ease;
+  border-bottom: solid 0.5px #89898987;
+}
+
+.result-user-wrapper:hover{
+  opacity: 0.8;
+  background-color: #a4dafc85;
+}
+
+.result-user-image{
+  height: 80px;
+  width: 80px;
+  border-radius: 80px;
+}
+
+.result-user-link{
+  text-decoration: none;
+  color: #333333;
+  transition: all 300ms;
+}
+
+.result-user-name{
+  margin: 0;
+}
+
+.result-user-left{
+  margin-right: 25px;
+}
+
+.result-user-contents{
+  display: flex;
+}
+
+/* 
+ * ここからshowアクション
+ * twitterの情報関連はshow-user-〇〇
+ */
+
+.show-user-contents{
+  padding: 20px 80px;
+}
+
+.show-user-image{
+  height: 100px;
+  width: 100px;
+  border-radius: 100px;
+}
+
+.show-user-header{
+  display: flex;
+}
+
+.show-user-header-right{
+  padding-left: 50px;
+  padding-top: 10px;
+}
+
+.show-user-name{
+  margin: unset;
+}
+
+.show-user-screen-name{
+  margin: unset;
+  padding-left: 2px;
+}
+
+.show-user-ff-count{
+  display: flex;
+}
+
+.show-user-body{
+  border-bottom: solid 0.5px #89898987;
+}
+
+.show-user-follow{
+  font-weight: bold;
+  padding-right: 20px;
+}
+
+.show-user-ff-count-span{
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.show-user-footer{
+  text-align: center;
+}
+
+.show-user-img-btn{
+  font-size: 25px;
+  border-radius: 25px;
+  font-weight: bold;
+  padding: 15px 30px; 
+  margin-top: 20px;
+}
+
+.show-user-url{
+  font-size: 14px;
+  color: gray;
+}
