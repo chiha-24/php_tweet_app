@@ -14,7 +14,7 @@ RUN apt-get update && \
 
 # Enable PHP extensions
 RUN docker-php-ext-install pdo_mysql mysqli
- 
+
  
 # Add cake and composer command to system path
 ENV PATH="${PATH}:/var/www/html/lib/Cake/Console"
@@ -31,7 +31,7 @@ COPY . .
  
 # Set default working directory
 WORKDIR ./app
- 
+
 # Create tmp directory and make it writable by the web server
 RUN mkdir -p \
     tmp/cache/models \
