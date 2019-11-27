@@ -106,8 +106,8 @@ class TweetsController extends AppController {
 
 		// 画像ツイートの取得（最新順）
 		$twitter    = $this->Tweet->twitterOAuthInitialize();
-		// 取得したユーザーからのツイート・RTを除く・最大５件・画像を含むツイートのみの条件で、文字数上限を超えた情報を全て取得する
-		$imagePosts = $twitter->get('search/tweets', ["q" => "from:$userName filter:images exclude:retweets","result_type" => "recent","count" => "5", "include_entities"=>true,"tweet_mode"=>"extended"]);
+		// 取得したユーザーからのツイート・RTを除く・最大５件・画像を含むツイートのみの条件で、文字数上限を超えた情報を全て取得する "result_type" => "recent"
+		$imagePosts = $twitter->get('search/tweets', ["q" => "from:$userName filter:images exclude:retweets","count" => "5", "include_entities"=>true,"tweet_mode"=>"extended"]);
 
 		// 画像ツイートが取得できた場合
 		if (count($imagePosts) != 0){
@@ -115,22 +115,40 @@ class TweetsController extends AppController {
 		// DB保存用にレスポンスデータを加工
 		// 配列形式で保存用データを格納する
 		$imagePostArray = [];
-		foreach ($imagePosts->statuses as $post){
+		foreach ($imagePosts->statuses as $postData){
 
 			// 画像urlをまとめる配列を作る
 			$imageUrlArray = [];
-			$tweetId = $post->id;
+			$tweetId = $postData->id;
 
-			foreach ($post->entities->media as $media){
+			foreach ($postData->entities->media as $media){
 				$imageUrl = $media->media_url;
 				array_push($imageUrlArray,$imageUrl);
 			}
-			// ツイートID(key) => 画像URLの配列(value)の形で連想配列を組んで$imagePostArrayに格納
+			// ツイートID(key) => array(画像URLの配列(value))の形で連想配列を組んで$imagePostArrayに格納
 			$imagePostArray[$tweetId] = $imageUrlArray;
 		}
 
+		// 画像の保存処理
 		$this->loadModel('Tweet');
 		$this->Tweet->saveImageData($imagePostArray);
+
+		// ビューに送るデータの組み立て
+		$sendViewDataArray = [];
+
+		foreach($imagePosts->statuses as $postData){
+			// 1ツイート分のデータをまとめた連想配列を作る
+			$sendViewData            				= [];
+			$sendViewData['date']    				= $postData->created_at;
+			$sendViewData['text']    				= $postData->full_text;
+			$sendViewData['name']    				= $postData->user->name;
+			$sendViewData['sc_name'] 				= $postData->user->screen_name;
+			$sendViewData['profile_image']  = $postData->user->profile_image_url;
+			// 画像パスをまとめた配列を返すgetImagePathを呼び出し
+			$sendViewData['image_urls']     = $this->Tweet->getImagePath($postData->id);
+			array_push($sendViewDataArray,$sendViewData);
+			}
+		print_r($sendViewDataArray);
 		}
 	}
 }

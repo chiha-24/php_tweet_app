@@ -32,19 +32,16 @@ COPY . .
 # Set default working directory
 WORKDIR ./app
 
-# Create tmp directory and make it writable by the web server
+# tmpの作成及び
 RUN mkdir -p \
     tmp/cache/models \
     tmp/cache/persistent \
-    tmp/cache/uploads \
   && chown -R :www-data \
     tmp \
   && chmod -R 770 \
     tmp
 
-WORKDIR ./tmp/uploads
-
-# Enable Apache modules and restart
+# Apacheの再起動
 RUN a2enmod rewrite \
   && service apache2 restart
 
