@@ -9,16 +9,14 @@ use Abraham\TwitterOAuth\TwitterOAuth;
  */
 class TweetsController extends AppController {
 
-	// モデルに干渉しないformを使うので宣言
+	// DBに干渉しないがformで値送信を行うので宣言
 	var $useTable = false;
 
-	// componentを使用
-	var $components = array('Tweets');
+	public $uses = array('Tweet');
 
 	// indexアクション
 	public function index() {
 		$this->layout = 'tweets';
-
 	}
 
 	// resultアクション(検索結果表示ページ)
@@ -35,7 +33,7 @@ class TweetsController extends AppController {
 		}
 
 		// キーワードでユーザー検索
-		$twitter = $this->Tweets->twitterOAuthInitialize();
+		$twitter = $this->Tweet->twitterOAuthInitialize();
 		$result  = $twitter->get('users/search', ["q" => $keyWord]);	
 
 		// 検索時にエラーが出ていた場合
@@ -72,7 +70,7 @@ class TweetsController extends AppController {
 		$userName = $_GET["screen_name"];
 
 		// 特定のユーザー１件の取得
-		$twitter    = $this->Tweets->twitterOAuthInitialize();
+		$twitter    = $this->Tweet->twitterOAuthInitialize();
 		$userDetail = $twitter->get('users/show', ["screen_name" => $userName]);
 
 		// ビュー側に送信
@@ -107,7 +105,7 @@ class TweetsController extends AppController {
 		$userName = $_GET["screen_name"];
 
 		// 画像ツイートの取得（最新順）
-		$twitter    = $this->Tweets->twitterOAuthInitialize();
+		$twitter    = $this->Tweet->twitterOAuthInitialize();
 		$imagePosts = $twitter->get('search/tweets', ["q" => "from:$userName filter:images exclude:retweets","result_type" => "recent","count" => "5", "include_entities"=>true,"tweet_mode"=>"extended"]);
 
 		// 画像ツイートが取得できた場合
