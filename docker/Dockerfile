@@ -44,8 +44,6 @@ RUN mkdir -p \
 
 WORKDIR ./app/Plugin
 
-RUN git clone --depth 1 https://github.com/abraham/twitteroauth.git
-
 WORKDIR ..
 
 # Enable Apache modules and restart
