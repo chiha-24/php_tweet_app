@@ -106,6 +106,7 @@ class TweetsController extends AppController {
 
 		// 画像ツイートの取得（最新順）
 		$twitter    = $this->Tweet->twitterOAuthInitialize();
+		// 取得したユーザーからのツイート・RTを除く・最大５件・画像を含むツイートのみの条件で、文字数上限を超えた情報を全て取得する
 		$imagePosts = $twitter->get('search/tweets', ["q" => "from:$userName filter:images exclude:retweets","result_type" => "recent","count" => "5", "include_entities"=>true,"tweet_mode"=>"extended"]);
 
 		// 画像ツイートが取得できた場合
@@ -113,21 +114,23 @@ class TweetsController extends AppController {
 
 		// DB保存用にレスポンスデータを加工
 		// 配列形式で保存用データを格納する
-		$allImagePosts = [];
+		$imagePostArray = [];
 		foreach ($imagePosts->statuses as $post){
 
-			// 画像urlのみを配列にまとめる
-			$tweetImageUrls = [];
+			// 画像urlをまとめる配列を作る
+			$imageUrlArray = [];
 			$tweetId = $post->id;
 
 			foreach ($post->entities->media as $media){
-				$tweetImageUrl = $media->media_url;
-				array_push($tweetImageUrls,$tweetImageUrl);
+				$imageUrl = $media->media_url;
+				array_push($imageUrlArray,$imageUrl);
 			}
-			// ツイートID(key) => 画像URLの配列(value)の形で連想配列を組んで$allImagePostsに格納
-			$allImagePosts[$tweetId] = $tweetImageUrls;
+			// ツイートID(key) => 画像URLの配列(value)の形で連想配列を組んで$imagePostArrayに格納
+			$imagePostArray[$tweetId] = $imageUrlArray;
 		}
-		print_r($allImagePosts);
+
+		$this->loadModel('Tweet');
+		$this->Tweet->saveImageData($imagePostArray);
 		}
 	}
 }
