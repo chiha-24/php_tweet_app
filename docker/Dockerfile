@@ -42,9 +42,7 @@ RUN mkdir -p \
   && chmod -R 770 \
     tmp
 
-WORKDIR ./app/Plugin
-
-WORKDIR ..
+WORKDIR ./tmp/uploads
 
 # Enable Apache modules and restart
 RUN a2enmod rewrite \
