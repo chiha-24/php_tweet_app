@@ -36,11 +36,18 @@ WORKDIR ./app
 RUN mkdir -p \
     tmp/cache/models \
     tmp/cache/persistent \
+    tmp/cache/uploads \
   && chown -R :www-data \
     tmp \
   && chmod -R 770 \
     tmp
- 
+
+WORKDIR ./app/Plugin
+
+RUN git clone --depth 1 https://github.com/abraham/twitteroauth.git
+
+WORKDIR ..
+
 # Enable Apache modules and restart
 RUN a2enmod rewrite \
   && service apache2 restart

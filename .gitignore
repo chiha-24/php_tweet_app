@@ -10,6 +10,8 @@
 .env
 *.mo
 
+/app/Plugins
+
 # IDE and editor specific files #
 #################################
 /nbproject
