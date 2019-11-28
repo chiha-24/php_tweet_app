@@ -92,8 +92,8 @@ class TweetsController extends AppController {
 	public function tweetImage(){
 		$this->layout = 'tweets';
 
-		// リクエストに含まれるscreen_nameを受け取る。無い場合トップページへリダイレクト
-		if(!isset($_GET["screen_name"])){
+		// リクエストに含まれるscreen_nameを確認。無い場合トップページへリダイレクト。
+		if(!isset($_GET["screen_name"]) or strlen($_GET["screen_name"]) === 0){
 			$this->redirect(array(
 				'controller' => 'tweets',
 				'action' => 'index'
@@ -120,14 +120,13 @@ class TweetsController extends AppController {
 			// 画像urlをまとめる配列を作る
 			$imageUrlArray = [];
 			$tweetId = $postData->id;
-
-			foreach ($postData->entities->media as $media){
+			foreach ($postData->extended_entities->media as $media){
 				$imageUrl = $media->media_url;
 				array_push($imageUrlArray,$imageUrl);
 			}
 			// ツイートID(key) => array(画像URLの配列(value))の形で連想配列を組んで$imagePostArrayに格納
 			$imagePostArray[$tweetId] = $imageUrlArray;
-		}
+		};
 
 		// 画像の保存処理
 		$this->loadModel('Tweet');
@@ -147,8 +146,9 @@ class TweetsController extends AppController {
 			// 画像パスをまとめた配列を返すgetImagePathを呼び出し
 			$sendViewData['image_urls']     = $this->Tweet->getImagePath($postData->id);
 			array_push($sendViewDataArray,$sendViewData);
-			}
-		print_r($sendViewDataArray);
+		};
+		$this->set("viewDataArray",$sendViewDataArray);
 		}
-	}
+		$this->set("userName",$userName);
+	} 
 }

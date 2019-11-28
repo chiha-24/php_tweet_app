@@ -39,7 +39,12 @@ class AppSchema extends CakeSchema {
 		'indexes' => array(
 			'PRIMARY' => array(
 				'column' => array(
-					'id',
+					'id'
+				),
+				'unique' => 1
+			),
+			'UNIQUE' => array(
+				'column' => array(
 					'image'
 				),
 				'unique' => 1

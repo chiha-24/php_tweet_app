@@ -6,6 +6,11 @@ require("/var/www/html/app/Plugin/TwitterOAuth/autoload.php");
 use Abraham\TwitterOAuth\TwitterOAuth;
 
 class Tweet extends AppModel {
+	public $validate = array(
+		'image' => array(
+			'rule' => 'isUnique'
+		)
+	);
 /**
  * Display field
  *
@@ -29,35 +34,31 @@ class Tweet extends AppModel {
 	public function saveImageData($imagePostArray) {
 
 		// 画像データ保存用のディレクトリ（/tmp/uploads）がなければ作成
-		if(!file_exists("/var/www/html/app/tmp/uploads")){
-			mkdir("/var/www/html/app/tmp/uploads");
+		if(!file_exists("/var/www/html/app/webroot/img/uploads")){
+			mkdir("/var/www/html/app/webroot/img/uploads");
 		};
 
-		// ツイートデータ毎にforeach
 		foreach ( $imagePostArray as $tweetId => $imageUrlArray ) {
 			// ツイートの画像データ１件毎にforeach
 			foreach ( $imageUrlArray as $imageUrl ) {
-				// 一応URLが正常かどうかを確認(URLが不正だった場合は次へ)
-				if (filter_var( $imageUrl,FILTER_VALIDATE_URL )) {
-					$fileName = pathinfo($imageUrl);
-					$fileName = $fileName['basename'];
-					$img = file_get_contents($imageUrl);
-					// ローカルのapp/tmp/uploadsに保存
-					file_put_contents("../tmp/uploads/".$fileName,$img);
-					// DB保存用に画像パスとツイートIDをセットにしてデータ組み立て
-					$data = array(
-						'Tweet' => array(
-							'tw_id' => $tweetId,
-							'image' => "/var/www/html/app/tmp/uploads/".$fileName
-							)
-						);
-					// DBに保存(失敗した場合次へ)	
-					if($this->save($data) === false){
-						continue;
-					}
-				} else {
+				$fileName = pathinfo($imageUrl);
+				$fileName = $fileName['basename'];
+				$img = file_get_contents($imageUrl);
+				// ローカルのapp/tmp/uploadsに保存
+				file_put_contents("/var/www/html/app/webroot/img/uploads/".$fileName,$img);
+				// DB保存用に画像パスとツイートIDをセットにしてデータ組み立て
+				$data = array(
+					'Tweet' => array(
+						'tw_id' => $tweetId,
+						'image' => "uploads/".$fileName
+						)
+					);
+				// ループcreateなので宣言
+				$this->create(false);  
+				// DBに保存(失敗した場合次へ)	
+				if(!$this->save($data)){
 					continue;
-				};
+				}
 			};
 			
 		};
@@ -76,7 +77,7 @@ class Tweet extends AppModel {
 
 		// メソッドのレスポンスとして返す配列を生成
 		$allImagePath = [];
-		
+
 		foreach ($allImageData as $imageData){
 			$imagePath = $imageData['Tweet']['image'];
 			array_push($allImagePath,$imagePath);
