@@ -108,6 +108,7 @@ class TweetsController extends AppController {
 		$twitter    = $this->Tweet->twitterOAuthInitialize();
 		// 取得したユーザーからのツイート・RTを除く・最大５件・画像を含むツイートのみの条件で、文字数上限を超えた情報を全て取得する "result_type" => "recent"
 		$imagePosts = $twitter->get('search/tweets', ["q" => "from:$userName filter:images exclude:retweets","count" => "5", "include_entities"=>true,"tweet_mode"=>"extended"]);
+		print_r($imagePosts);
 
 		// 画像ツイートが取得できた場合
 		if (count($imagePosts) != 0){
@@ -120,12 +121,21 @@ class TweetsController extends AppController {
 			// 画像urlをまとめる配列を作る
 			$imageUrlArray = [];
 			$tweetId = $postData->id;
-			foreach ($postData->extended_entities->media as $media){
-				$imageUrl = $media->media_url;
-				array_push($imageUrlArray,$imageUrl);
+
+			// たまにextended_entities(メタデータの詳細情報)が取得できないアカウントがあるので場合分け
+			if (isset($postData->extended_entites)){
+				foreach ($postData->extended_entities->media as $media){
+					$imageUrl = $media->media_url;
+					array_push($imageUrlArray,$imageUrl);
+				}
+				// ツイートID(key) => array(画像URLの配列(value))の形で連想配列を組んで$imagePostArrayに格納
+				$imagePostArray[$tweetId] = $imageUrlArray;
+			} 
+			// extended_entitesがなかった場合はtwitpicユーザーなので失敗させた方がいいかもしれない
+			else {
+				continue;
 			}
-			// ツイートID(key) => array(画像URLの配列(value))の形で連想配列を組んで$imagePostArrayに格納
-			$imagePostArray[$tweetId] = $imageUrlArray;
+			
 		};
 
 		// 画像の保存処理

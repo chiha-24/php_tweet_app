@@ -341,6 +341,31 @@ footer{
     font-size: 14px;
   }
 
+  /* showアクション */
+  .show-container{
+    height: 50%;
+  }
+
+  .show-user-contents{
+    padding: 20px 40px;
+  }
+
+  .show-user-image{
+    height: 70px;
+    width: 70px;
+    border-radius: 70px;
+  }
+
+  .show-user-header-right{
+    padding-left: 25px;
+    padding-top: 5px;
+  }
+
+  .show-user-img-btn{
+    font-size: 16px;
+    padding: 12px 20px; 
+  }
+
   /* tweet_imageアクション */
   .tweet-image-body{
     padding: unset;
@@ -375,6 +400,49 @@ footer{
     font-size: 11px;
   }
 
+  .content-wrapper{
+    margin: 0 30px;
+  }
+
+  /* tweets/indexアクション */
+  .index-container{
+    height: 55%;
+  }
+
+  /* tweets/showアクション */
+  .show-container{
+    height: 55%;
+  }
+
+  .show-user-contents{
+    padding: 25px;
+  }
+
+  .show-user-ff-count-span{
+    font-size: 8px;
+  }
+
+  .show-user-img-btn{
+    font-size: 16px;
+    padding: 10px 20px;
+    margin: 10px 0; 
+  }
+
+  /* tweets/resultアクション */
+  .result-user-wrapper{
+    padding: 5px;
+  }
+  .result-user-image{
+    height: 50px;
+    width: 50px;
+    border-radius: 50px;
+  }
+  .result-user-left{
+    margin-right: 10px;
+  }
+
+
+  /* tweets/tweet_imageアクション */
   .tweet-data-profile-image{
     height: 50px;
     width: 50px;
@@ -399,6 +467,7 @@ footer{
 }
 
 @media screen and (max-width:400px){
+  /* css全体 */
   h1{
     font-size: 18px;
   }
@@ -412,6 +481,46 @@ footer{
     font-size: 10px;
   }
 
+  .content-wrapper{
+    margin: 0 20px;
+  }
+
+  /* tweets/indexアクション */
+  .index-keyword-input{
+    line-height: 25px;
+    font-size: 18px;
+  }
+
+  .index-container{
+    height: 50%;
+  }
+
+  .index-submit-btn{
+    font-size: 18px;
+    padding: 10px 25px;
+  }
+
+  /* tweets/showアクション */
+  .show-container{
+    height: 50%;
+  }
+
+  .show-user-contents{
+    padding: 30px 15px;
+  }
+
+  .show-user-image{
+    height: 60px;
+    width: 60px;
+    border-radius: 60px;
+  }
+
+  .show-user-img-btn{
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+
+  /* tweets/tweet_imageアクション */
   .tweet-data-image{
     width: 150px;
     height: auto;
