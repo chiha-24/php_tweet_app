@@ -108,7 +108,6 @@ class TweetsController extends AppController {
 		$twitter    = $this->Tweet->twitterOAuthInitialize();
 		// 取得したユーザーからのツイート・RTを除く・最大５件・画像を含むツイートのみの条件で、文字数上限を超えた情報を全て取得する "result_type" => "recent"
 		$imagePosts = $twitter->get('search/tweets', ["q" => "from:$userName filter:images exclude:retweets","count" => "5", "include_entities"=>true,"tweet_mode"=>"extended"]);
-		print_r($imagePosts);
 
 		// 画像ツイートが取得できた場合
 		if (count($imagePosts) != 0){
@@ -123,7 +122,7 @@ class TweetsController extends AppController {
 			$tweetId = $postData->id;
 
 			// たまにextended_entities(メタデータの詳細情報)が取得できないアカウントがあるので場合分け
-			if (isset($postData->extended_entites)){
+			if (isset($postData->extended_entities)){
 				foreach ($postData->extended_entities->media as $media){
 					$imageUrl = $media->media_url;
 					array_push($imageUrlArray,$imageUrl);
@@ -131,11 +130,10 @@ class TweetsController extends AppController {
 				// ツイートID(key) => array(画像URLの配列(value))の形で連想配列を組んで$imagePostArrayに格納
 				$imagePostArray[$tweetId] = $imageUrlArray;
 			} 
-			// extended_entitesがなかった場合はtwitpicユーザーなので失敗させた方がいいかもしれない
+			// extended_entitesがなかった場合は外部投稿サービスユーザーのツイートのため、今回は保存させない
 			else {
 				continue;
 			}
-			
 		};
 
 		// 画像の保存処理
@@ -155,7 +153,10 @@ class TweetsController extends AppController {
 			$sendViewData['profile_image']  = $postData->user->profile_image_url;
 			// 画像パスをまとめた配列を返すgetImagePathを呼び出し
 			$sendViewData['image_urls']     = $this->Tweet->getImagePath($postData->id);
-			array_push($sendViewDataArray,$sendViewData);
+			// 外部投稿ツールの場合画像データがないので表示から除外する
+			if(count($sendViewData['image_urls']) != 0){
+				array_push($sendViewDataArray,$sendViewData);
+			}
 		};
 		$this->set("viewDataArray",$sendViewDataArray);
 		}
