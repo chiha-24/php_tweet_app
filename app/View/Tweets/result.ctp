@@ -27,7 +27,6 @@
             </a>
         <?php endforeach; ?>
       </div>
-
     <!-- 見つからなかった場合-->
     <?php else : ?>
       <p class="result-error-message">ユーザーが見つかりませんでした。</p>

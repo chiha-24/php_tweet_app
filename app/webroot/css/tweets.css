@@ -299,8 +299,9 @@ footer{
 }
 
 .tweet-data-image{
-  max-width: 400px;
-  max-height: 400px;
+  width: 400px;
+  height: auto;
+  padding: 10px;
 }
 .tweet-data-screen-name{
   margin: unset;
@@ -311,13 +312,22 @@ footer{
   width: 80px;
   border-radius: 80px;
   margin-right: 20px;
+
 }
 
 .tweet-data-images-container{
   display: flex;
   flex-wrap: wrap;
 }
+
+.tweet-data-date{
+  color: #777777;
+  font-size: 12px;
+}
+
+/* レスポンシブ */
 @media screen and (max-width:700px){
+  /* 全体用 */
   h1{
     font-size: 25px;
   }
@@ -331,21 +341,83 @@ footer{
     font-size: 14px;
   }
 
-  
+  /* tweet_imageアクション */
   .tweet-image-body{
     padding: unset;
   }
 
   .tweet-data-container{
     padding: unset;
+    padding-top: 10px;
+  }
+
+  .tweet-data-name{
+    padding: unset;
   }
 
   .tweet-data-image{
-    max-width: 300px;
-    max-height: 300px;
+    width: 300px;
+    height: auto;
   }
 }
 
 @media screen and (max-width:500px){
+  h1{
+    font-size: 20px;
+  }
+  h2{
+    font-size: 16px;
+  }
+  h3{
+    font-size: 14px;
+  }
+  p{
+    font-size: 11px;
+  }
 
+  .tweet-data-profile-image{
+    height: 50px;
+    width: 50px;
+    border-radius: 50px;
+  }
+  .tweet-image-title{
+    padding: 10px 0;
+  }
+
+  .tweet-image-container{
+    padding: 0 20px;
+  }
+
+  .tweet-data-image{
+    width: 220px;
+    height: auto;
+  }
+
+  .tweet-data-date{
+    font-size: 9px;
+  }
+}
+
+@media screen and (max-width:400px){
+  h1{
+    font-size: 18px;
+  }
+  h2{
+    font-size: 14px;
+  }
+  h3{
+    font-size: 12px;
+  }
+  p{
+    font-size: 10px;
+  }
+
+  .tweet-data-image{
+    width: 150px;
+    height: auto;
+  }
+
+  .tweet-data-date{
+    font-size: 7px;
+  }
 }

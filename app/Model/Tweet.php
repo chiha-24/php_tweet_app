@@ -84,4 +84,12 @@ class Tweet extends AppModel {
 		};
 		return $allImagePath;
 	}
+
+	// ツイート日時をビューで表示する形に加工して返すメソッド
+	// 例）Thu Nov 27 11:11:11 +0000 2019 => 2019年11月27日 11時11分
+	public function processDateText($date){
+		$timestamp = strtotime($date); 
+		$jp_time = date('Y年m月d日 H時i分', $timestamp);
+		return $jp_time;
+	}	
 }

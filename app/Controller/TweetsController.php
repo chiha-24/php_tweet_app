@@ -138,7 +138,7 @@ class TweetsController extends AppController {
 		foreach($imagePosts->statuses as $postData){
 			// 1ツイート分のデータをまとめた連想配列を作る
 			$sendViewData            				= [];
-			$sendViewData['date']    				= $postData->created_at;
+			$sendViewData['date']    				= $this->Tweet->processDateText($postData->created_at);
 			$sendViewData['text']    				= $postData->full_text;
 			$sendViewData['name']    				= $postData->user->name;
 			$sendViewData['sc_name'] 				= $postData->user->screen_name;
