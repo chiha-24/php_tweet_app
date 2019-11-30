@@ -1,3 +1,7 @@
+<!-- ページタイトル -->
+<?php
+  $this->assign('title', 'ユーザー選択');
+?>
 <div class="result-container content-wrapper">
   <div class="result-contents">
     <?php if(isset($result)): ?>
