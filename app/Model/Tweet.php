@@ -2,7 +2,7 @@
 App::uses('AppModel', 'Model');
 App::uses('Folder', 'Utility');
 
-require("/var/www/html/app/Plugin/TwitterOAuth/autoload.php");
+require("/var/www/html/app/Vendor/abraham/twitteroauth/autoload.php");
 use Abraham\TwitterOAuth\TwitterOAuth;
 
 class Tweet extends AppModel {

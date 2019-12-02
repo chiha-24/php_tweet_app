@@ -1,6 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
-require("/var/www/html/app/Plugin/TwitterOAuth/autoload.php");
+require("/var/www/html/app/Vendor/abraham/twitteroauth/autoload.php");
 use Abraham\TwitterOAuth\TwitterOAuth;
 
 
