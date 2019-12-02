@@ -45,6 +45,7 @@ RUN mkdir -p \
   && chmod -R 770 \
     tmp
 
+
 # Apacheの再起動
 RUN a2enmod rewrite \
   && service apache2 restart
