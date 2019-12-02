@@ -17,6 +17,7 @@ class TweetsController extends AppController {
 	// indexアクション
 	public function index() {
 		$this->layout = 'tweets';
+		$this->render();
 	}
 
 	// resultアクション(検索結果表示ページ)
@@ -38,27 +39,28 @@ class TweetsController extends AppController {
 
 		// 検索時にエラーが出ていた場合
 		if(isset($result->errors)){
-			return false;
+			$this->render();
 		}
 		// エラーが出てなかった場合
 		elseif (count($result) != 0){
 			$counted = count($result);
 			$this->set("counted",$counted);
 			$this->set("result",$result);
+			$this->render();
 		}
 		// 検索結果がなかった場合
 		else{
-			return false;
+			$this->render();
 		}
 		
 	}
 
 	// showアクション（ユーザー詳細表示）
 	public function show(){
-		$this->layout = 'tweets';
+		$this->layout = 'tweets';		
 
 		// リクエストからscreen_nameを受け取る。無い場合トップページへリダイレクト
-		if(!isset($_GET["screen_name"])){
+		if(!isset($this->params['named']['screen_name'])){
 			$this->redirect(array(
 				'controller' => 'tweets',
 				'action' => 'index'
@@ -67,33 +69,42 @@ class TweetsController extends AppController {
 		}
 
 		// リクエスト末尾からtwitterIDを取得
-		$userName = $_GET["screen_name"];
+		$userName = $this->params['named']['screen_name'];
 
 		// 特定のユーザー１件の取得
 		$twitter    = $this->Tweet->twitterOAuthInitialize();
-		$userDetail = $twitter->get('users/show', ["screen_name" => $userName]);
+		$userDetail = $twitter->get('users/show', ['screen_name' => $userName]);
 
 		// ビュー側に送信
-		// 取得エラーの場合トップへリダイレクト
+		// 取得エラー（params['named']['screen_name'] = '')の場合も含む）の場合トップへリダイレクト
 		if (isset($userDetail->errors)){
 			$this->redirect(array(
 				'controller' => 'tweets',
 				'action' => 'index'
 			));
+			$this->render();
 		}
 		// データがある場合はビューに送る 
 		elseif (isset($userDetail)) {
 			$this->set("userDetail",$userDetail);
+			$this->render();
 		}
-		// ない場合は何もしない
+		// ない場合もトップページへリダイレクト
+		else{
+			$this->redirect(array(
+				'controller' => 'tweets',
+				'action' => 'index'
+			));
+			$this->render();
+		}
 	}
 
 	// tweetImageアクション（画像取得・表示アクション）
 	public function tweetImage(){
 		$this->layout = 'tweets';
 
-		// リクエストに含まれるscreen_nameを確認。無い場合トップページへリダイレクト。
-		if(!isset($_GET["screen_name"]) or strlen($_GET["screen_name"]) === 0){
+		// リクエストに含まれるパラメータを確認。無い場合トップページへリダイレクト。
+		if(!isset($this->params['named']['screen_name']) or strlen($this->params['named']['screen_name']) === 0){
 			$this->redirect(array(
 				'controller' => 'tweets',
 				'action' => 'index'
@@ -102,7 +113,7 @@ class TweetsController extends AppController {
 		}
 
 		// リクエストからユーザーIDを取得（ツイート取得に使用）
-		$userName = $_GET["screen_name"];
+		$userName = $this->params['named']['screen_name'];
 
 		// 画像ツイートの取得（最新順）
 		$twitter    = $this->Tweet->twitterOAuthInitialize();
@@ -121,7 +132,7 @@ class TweetsController extends AppController {
 			$imageUrlArray = [];
 			$tweetId = $postData->id;
 
-			// たまにextended_entities(メタデータの詳細情報)が取得できないアカウントがあるので場合分け
+			// たまにextended_entities(メタデータの詳細情報)が取得できない（twipple等の外部投稿サービスのツイート）があるので場合分け
 			if (isset($postData->extended_entities)){
 				foreach ($postData->extended_entities->media as $media){
 					$imageUrl = $media->media_url;

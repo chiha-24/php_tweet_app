@@ -32,7 +32,7 @@
         <?php endif; ?>
       </div>
       <div class="show-user-footer">
-        <a href="/tweets/tweetImage?screen_name=<?php echo $userDetail->screen_name?>" class="btn show-user-img-btn btn-reverse">このアカウントの画像を取得する！</a>
+        <a href="/tweets/tweetImage/screen_name:<?php echo $userDetail->screen_name; ?>" class="btn show-user-img-btn btn-reverse">このアカウントの画像を取得する！</a>
       </div>
     </div>
   <!-- ユーザーの取得情報が無い場合以下を表示 -->
