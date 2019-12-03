@@ -1,6 +1,7 @@
 <?php
 App::uses('TweetsController', 'Controller');
-
+App::uses('AppModel','Model');
+App::uses('Tweet','Model');
 
 /**
  * TweetsController Test Case
@@ -24,7 +25,6 @@ class TweetsControllerTest extends ControllerTestCase {
 	}
 
 	// ここからtweets/result
-
 	// ユーザーが見つかるパターンの検索キーワードを与えて検索アクションにPOSTした場合
 	public function testResult() {
 		$data = array(
@@ -65,15 +65,65 @@ class TweetsControllerTest extends ControllerTestCase {
 	}
 
 	// ここからtweets/show
-	// $_GET["screen_name"]に正常なユーザーIDが入ったリクエストのテスト
+	// params['named']['screen_name']に正常なユーザーIDが入ったリクエストのテスト
 	public function testShow() {
-    $GLOBALS["_GET"]['screen_name'] = 'Twitter';
-		$result = $this->testAction('/tweets/show');
-		$this->assertTextContains('>このアカウントの画像を取得する!</a>', $result);
+		$result = $this->testAction('/tweets/show/screen_name:Twitter');
+		$this->assertTextContains('>このアカウントの画像を取得する！</a>', $result);
 	}
 
-	public function testTweetImage() {
-		$this->markTestIncomplete('testTweetImage not implemented.');
+	// params['named']['screen_name'] はあるが値が無い場合のリクエストのテスト
+	public function testScNameBlankShow() {
+		$result = $this->testAction('/tweets/show/screen_name:');
+		$this->assertTextContains('>ユーザーが取得できませんでした</p>', $result);
 	}
 
+	// params['named']['screen_name'] はあるが該当ユーザーが存在しない場合のリクエストのテスト
+	public function testScNameToolongShow() {
+		$result = $this->testAction('/tweets/show/screen_name:jdrhgiehriughieurhgiueherger9e9rgergeriguhie');
+		$this->assertTextContains('>ユーザーが取得できませんでした</p>', $result);
+	}
+
+	// params['named']['screen_name'] が無い場合のリダイレクトチェック
+	public function testWithoutScNameShow() {
+		$this->testAction('/tweets/show');
+		$this->assertRegExp('/http:\/\/localhost:8000\//', $this->headers['Location']);
+	}
+
+	// ここからtweets/tweet_image
+	// params['named']['screen_name'] の値に該当するユーザーが存在する場合のレスポンステスト
+	public function testGetUserTweetImage(){
+		$result = $this->testAction('/tweets/tweetImage/screen_name:Twitter');
+		$this->assertTextContains('さんの画像ツイート</h1>', $result);
+	}
+
+	// params['named']['screen_name']　の値に該当するユーザーが存在し、画像ツイートが取得できなかった場合のレスポンステスト
+	public function testCanNotGetUserTweetImage(){
+		$result = $this->testAction('/tweets/tweetImage/screen_name:Twitter');
+		$this->assertTextContains('取得できませんでした</p>', $result);
+	}
+
+	// params['named']['screen_name']　の値に該当するユーザーが存在し、画像ツイートが取得できた場合のレスポンステスト
+	// screen_name:○○は確実に画像を取得できるアカウントのTwitterIDに書き換える
+	public function testGetTweetImage(){
+		$result = $this->testAction('/tweets/tweetImage/screen_name:t7s_staff');
+		$this->assertTextContains('<div class="tweet-data-container">', $result);
+	}
+
+	// params['named']['screen_name'] の値に該当するユーザーが存在しない場合のレスポンステスト
+	public function testScNameToolongTweetImage(){
+		$result = $this->testAction('/tweets/tweetImage/screen_name:whrthrtsr;thkpsirjtohijsoritjhoirsht');
+		$this->assertTextContains('取得できませんでした</p>', $result);
+	}
+
+	// params['named']['screen_name'] が空の場合のリダイレクトテスト
+	public function testBlankScNameImage() {
+		$this->testAction('/tweets/tweetImage/screen_name:');
+		$this->assertRegExp('/http:\/\/localhost:8000\//', $this->headers['Location']);
+	}
+
+	// params['named']['screen_name'] が存在しない場合のリダイレクトテスト
+	public function testWithoutScNameImage() {
+		$this->testAction('/tweets/tweetImage');
+		$this->assertRegExp('/http:\/\/localhost:8000\//', $this->headers['Location']);
+	}
 }

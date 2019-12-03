@@ -10,6 +10,7 @@ class AppSchema extends CakeSchema {
 
 	var $tweets = array(
 
+	
 		'id' => array(
 			'type' => 'integer',
 			'null' => false,
@@ -17,7 +18,6 @@ class AppSchema extends CakeSchema {
 			'key' => 'primary',
 			'default' => null
 			),
-
 		'created' => array(
 			'type' => 'datetime',
 			'null' => false,
@@ -37,7 +37,7 @@ class AppSchema extends CakeSchema {
 		),
 
 		'indexes' => array(
-			'PRIMARY' => array(
+		  'PRIMARY' => array(
 				'column' => array(
 					'id'
 				),

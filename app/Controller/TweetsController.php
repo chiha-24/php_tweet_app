@@ -76,12 +76,8 @@ class TweetsController extends AppController {
 		$userDetail = $twitter->get('users/show', ['screen_name' => $userName]);
 
 		// ビュー側に送信
-		// 取得エラー（params['named']['screen_name'] = '')の場合も含む）の場合トップへリダイレクト
+		// 取得エラー（params['named']['screen_name'] = '')の場合も含む）の場合はviewに何も値を渡さない
 		if (isset($userDetail->errors)){
-			$this->redirect(array(
-				'controller' => 'tweets',
-				'action' => 'index'
-			));
 			$this->render();
 		}
 		// データがある場合はビューに送る 
@@ -89,12 +85,8 @@ class TweetsController extends AppController {
 			$this->set("userDetail",$userDetail);
 			$this->render();
 		}
-		// ない場合もトップページへリダイレクト
+		// ない場合も何も渡さない（メソッド開始時のif文で弾いてるが、念の為）
 		else{
-			$this->redirect(array(
-				'controller' => 'tweets',
-				'action' => 'index'
-			));
 			$this->render();
 		}
 	}
@@ -145,8 +137,7 @@ class TweetsController extends AppController {
 			else {
 				continue;
 			}
-		};
-
+		}
 		// 画像の保存処理
 		$this->loadModel('Tweet');
 		$this->Tweet->saveImageData($imagePostArray);
@@ -172,5 +163,6 @@ class TweetsController extends AppController {
 		$this->set("viewDataArray",$sendViewDataArray);
 		}
 		$this->set("userName",$userName);
+		$this->render();
 	} 
 }
