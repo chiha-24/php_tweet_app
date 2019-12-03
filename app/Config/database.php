@@ -72,18 +72,18 @@ class DATABASE_CONFIG {
 		'host' => 'db',
 		'login' => 'root',
 		'password' => 'root_password',
-		'database' => 'cakephp_db',
+		'database' => 'twimg_db',
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);
 
 	public $test = array(
-		'datasource' => 'Database/Mysql',
-		'persistent' => false,
+	'datasource' => 'Database/Mysql',
+	'persistent' => false,
 		'host' => 'db',
 		'login' => 'root',
 		'password' => 'root_password',
-		'database' => 'cakephp_db_test',
-		'prefix' => '',
+	'database' => 'twimg_test',
+	'prefix' => '',
 	);
 }

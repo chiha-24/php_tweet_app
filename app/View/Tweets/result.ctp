@@ -16,7 +16,7 @@
       <div class='result-users-container'>
         <?php foreach ($result as $user): ?>
             <!-- /tweets/showの末尾にscreen_name=〇〇を付けてリクエストする（/tweets/showでのユーザー取得に使う） -->
-            <a href='/tweets/show?screen_name=<?php echo $user->screen_name; ?>' class='result-user-link'>
+            <a href='/tweets/show/screen_name:<?php echo $user->screen_name; ?>' class='result-user-link'>
               <div class='result-user-wrapper'>
                 <div class='result-user-contents'>
                   <div class='result-user-left'>

@@ -2,6 +2,7 @@
 <?php
   $this->assign('title', '画像ツイート');
 ?>
+
 <div class="tweet-image-container content-wrapper">
   <div class="tweet-image-header">
     <h1 class="tweet-image-title">@<?php echo $userName ?>さんの画像ツイート</h1>
