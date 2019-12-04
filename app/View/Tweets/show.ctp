@@ -2,6 +2,7 @@
 <?php
   $this->assign('title', 'ユーザー詳細');
 ?>
+
 <div class="show-container content-wrapper">
   <!-- ユーザーの取得情報がある場合以下を表示 -->
   <?php if (isset($userDetail)) :?>

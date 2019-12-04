@@ -2,6 +2,7 @@
 <?php
   $this->assign('title', 'キーワード検索');
 ?>
+
 <div class="index-container content-wrapper">
   <div class="index-form">
     <h1>キーワード検索</h1>

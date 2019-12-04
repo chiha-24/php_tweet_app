@@ -10,7 +10,6 @@ class AppSchema extends CakeSchema {
 
 	var $tweets = array(
 
-	
 		'id' => array(
 			'type' => 'integer',
 			'null' => false,

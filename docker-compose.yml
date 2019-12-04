@@ -1,23 +1,6 @@
 version: "3"
  
 services:
-  db:
-    image: mysql:5
-    volumes:
-      - db-data:/var/lib/mysql
-      - ./docker/mysql:/docker-entrypoint-initdb.d
-    ports:
-      - "3309:3306"
-    environment:
-      MYSQL_DATABASE: twimg_db
-      MYSQL_ROOT_PASSWORD: root_password
-       
-  mailhog:
-    image: mailhog/mailhog
-    ports:
-      - "8025:8025"
-      - "1025:1025"
-
   app:
     build:
       context: .
@@ -32,7 +15,24 @@ services:
     depends_on:
       - db
     env_file: .env
- 
+
+  db:
+    image: mysql:5
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./docker/mysql:/docker-entrypoint-initdb.d
+    ports:
+      - "3309:3306"
+    environment:
+      MYSQL_DATABASE: twimg_db
+      MYSQL_ROOT_PASSWORD: root_password
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+
 volumes:
   db-data:
     external: false
