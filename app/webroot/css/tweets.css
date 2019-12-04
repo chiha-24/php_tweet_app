@@ -302,6 +302,7 @@ footer{
   width: 400px;
   height: auto;
   padding: 10px;
+  object-fit: contain;
 }
 .tweet-data-screen-name{
   margin: unset;
@@ -318,6 +319,7 @@ footer{
 .tweet-data-images-container{
   display: flex;
   flex-wrap: wrap;
+  align-self: flex-start;
 }
 
 .tweet-data-date{
