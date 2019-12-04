@@ -1,6 +1,7 @@
 # php_tweet_app
-日本語で失礼します。
-
+Twitterユーザーの検索・画像ツイート取得アプリケーション
+## Demo
+![](https://github.com/chiha-24/git-app/blob/master/gif/zcv78-u6ajt.gif?raw=true)
 ## 概要
 このアプリは以下の機能で構成されています。
 
