@@ -31,7 +31,7 @@ RUN a2enconf fqdn
 COPY . .
  
 # Set default working directory
-WORKDIR ./app
+WORKDIR /var/www/html/app
 
 # Update composer
 RUN composer update
