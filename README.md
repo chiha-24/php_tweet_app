@@ -90,3 +90,40 @@ Are you sure you want to create the table(s)? (y/n)
 ## ⑥ ブラウザからアプリへアクセス
 [http://localhost:8000/](http://localhost:8000/)へアクセスし、アプリが正常に動作していることを確認し、利用開始します。
 
+## トラブルシューティング
+上記⑥の手順の際、アプリアクセス時に、
+```
+Warning: mkdir(): Permission denied in /var/www/html/lib/Cake/Cache/Engine/FileEngine.php on line 388
+
+Warning: _cake_core_ cache was unable to write 'cake_dev_ja' to File cache in /var/www/html/lib/Cake/Cache/Cache.php on line 328
+
+Warning: /var/www/html/app/tmp/cache/persistent/ is not writable in /var/www/html/lib/Cake/Cache/Engine/FileEngine.php on line 393
+
+Fatal error: Uncaught exception 'CacheException' with message 'Cache engine "_cake_core_" is not properly configured. Ensure required extensions are installed, and credentials/permissions are correct' in /var/www/html/lib/Cake/Cache/Cache.php:186 Stack trace:
+```
+
+のようなエラーが発生した場合
+
+```
+$ cd ~/php_tweet_app
+$ docker-compose exec app /bin/bash
+```
+でコンテナに入り、
+
+```
+# mkdir -p \
+  tmp/cache/models \
+  tmp/cache/persistent \
+# chown -R :www-data /var/www/html/app \
+  && chmod -R 770 /var/www/html/app
+```
+を直接実行してtmpファイルを作成し権限を付与することで解決する場合があります。
+
+また、ローカルへの画像の取得ができていない場合
+
+```
+$ docker-compose exec app /bin/bash
+# chown -R :www-data /var/www/html/app \
+  && chmod -R 770 /var/www/html/app
+```
+を実行することで解決する場合があります。
