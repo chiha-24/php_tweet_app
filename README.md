@@ -78,20 +78,21 @@ $ docker-compose up -d
 ```
 $ cd ~/php_tweet_app
 $ docker-compose exec app /bin/bash
+
 # cake schema create
 
-Are you sure you want to drop the table(s)? (y/n) 
-[n] > y
+  Are you sure you want to drop the table(s)? (y/n) 
+  [n] > y
 
-Are you sure you want to create the table(s)? (y/n) 
-[y] > y
+  Are you sure you want to create the table(s)? (y/n) 
+  [y] > y
 ```
 
 ## ⑥ ブラウザからアプリへアクセス
-[http://localhost:8000/](http://localhost:8000/)へアクセスし、アプリが正常に動作していることを確認し、利用開始します。
+[http://localhost:8000/](http://localhost:8000/) へアクセスし、アプリが正常に動作していることを確認し、利用開始します。
 
 ## トラブルシューティング
-上記⑥の手順の際、アプリアクセス時に、
+上記⑥の手順の際、アプリアクセス時に
 ```
 Warning: mkdir(): Permission denied in /var/www/html/lib/Cake/Cache/Engine/FileEngine.php on line 388
 
@@ -108,7 +109,7 @@ Fatal error: Uncaught exception 'CacheException' with message 'Cache engine "_ca
 $ cd ~/php_tweet_app
 $ docker-compose exec app /bin/bash
 ```
-でコンテナに入り、
+でコンテナに入り
 
 ```
 # mkdir -p \
@@ -117,12 +118,13 @@ $ docker-compose exec app /bin/bash
 # chown -R :www-data /var/www/html/app \
   && chmod -R 770 /var/www/html/app
 ```
-を直接実行してtmpファイルを作成し権限を付与することで解決する場合があります。
+を直接実行してtmpファイルを作成し、権限を付与することで解決する場合があります。
 
 また、ローカルへの画像の取得ができていない場合
 
 ```
 $ docker-compose exec app /bin/bash
+
 # chown -R :www-data /var/www/html/app \
   && chmod -R 770 /var/www/html/app
 ```
